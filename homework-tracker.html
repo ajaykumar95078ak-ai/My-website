@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Homework Tracker</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #0f172a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        /* ================= CONTAINER ================= */
+        .tracker-container {
+            width: 100%;
+            max-width: 750px;
+            padding: 40px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(15px);
+        }
+
+        /* ================= HEADER ================= */
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #b8c4d6;
+            font-size: 15px;
+        }
+
+        /* ================= INPUT ================= */
+        .input-section {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr auto;
+            gap: 12px;
+            margin-bottom: 30px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 15px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            background: white;
+            color: #1e293b;
+            font-size: 15px;
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.25);
+        }
+
+        .add-btn {
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            background: #00bfff;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .add-btn:hover {
+            opacity: 0.85;
+            transform: translateY(-2px);
+        }
+
+        /* ================= STATS ================= */
+        .stats {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 12px;
+            margin-bottom: 25px;
+        }
+
+        .stat-card {
+            padding: 15px;
+            border-radius: 12px;
+            background: rgba(255, 255, 255, 0.07);
+            text-align: center;
+        }
+
+        .stat-card h3 {
+            font-size: 24px;
+            margin-bottom: 5px;
+        }
+
+        .stat-card p {
+            color: #b8c4d6;
+            font-size: 13px;
+        }
+
+        /* ================= HOMEWORK LIST ================= */
+        .section-title {
+            font-size: 20px;
+            margin-bottom: 15px;
+        }
+
+        .homework-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .homework {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 15px;
+            padding: 17px;
+            background: rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .homework-info {
+            flex: 1;
+        }
+
+        .homework-info h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .homework-info p {
+            color: #b8c4d6;
+            font-size: 14px;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+        }
+
+        .complete-btn,
+        .delete-btn {
+            border: none;
+            padding: 9px 12px;
+            border-radius: 8px;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        .complete-btn {
+            background: #22c55e;
+        }
+
+        .delete-btn {
+            background: #ef4444;
+        }
+
+        .complete-btn:hover,
+        .delete-btn:hover {
+            opacity: 0.85;
+        }
+
+        /* ================= COMPLETED ================= */
+        .completed {
+            opacity: 0.6;
+        }
+
+        .completed h3 {
+            text-decoration: line-through;
+        }
+
+        /* ================= EMPTY ================= */
+        .empty-message {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px 10px;
+        }
+
+        /* ================= MOBILE ================= */
+        @media (max-width: 650px) {
+            body {
+                padding: 15px;
+            }
+
+            .tracker-container {
+                padding: 25px 20px;
+            }
+
+            .input-section {
+                grid-template-columns: 1fr;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .homework {
+                align-items: flex-start;
+                flex-direction: column;
+            }
+
+            .actions {
+                width: 100%;
+            }
+
+            .complete-btn,
+            .delete-btn {
+                flex: 1;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="tracker-container"> <!-- ================= HEADER ================= -->
+        <div class="header">
+            <div class="header-icon"> 📝 </div>
+            <h1> Homework Tracker </h1>
+            <p class="subtitle"> Keep track of your homework and stay organized </p>
+        </div> <!-- ================= INPUT ================= -->
+        <div class="input-section"> <input type="text" id="subject" placeholder="Subject"> <input type="text"
+                id="homework" placeholder="Homework task"> <button class="add-btn" onclick="addHomework()"> + Add
+            </button> </div> <!-- ================= STATS ================= -->
+        <div class="stats">
+            <div class="stat-card">
+                <h3 id="totalCount"> 0 </h3>
+                <p> Total Homework </p>
+            </div>
+            <div class="stat-card">
+                <h3 id="completedCount"> 0 </h3>
+                <p> Completed </p>
+            </div>
+        </div> <!-- ================= LIST ================= -->
+        <h2 class="section-title"> My Homework </h2>
+        <div id="homeworkList" class="homework-list">
+            <p class="empty-message"> No homework added yet. </p>
+        </div>
+    </div> <!-- ================= JAVASCRIPT ================= -->
+    <script> function updateStats() { const homeworkItems = document.querySelectorAll(".homework"); const completedItems = document.querySelectorAll(".homework.completed"); document.getElementById("totalCount").textContent = homeworkItems.length; document.getElementById("completedCount").textContent = completedItems.length; } function addHomework() { const subject = document.getElementById("subject").value.trim(); const homework = document.getElementById("homework").value.trim(); if (subject === "" || homework === "") { alert("Please enter subject and homework!"); return; } const homeworkList = document.getElementById("homeworkList"); const emptyMessage = document.querySelector(".empty-message"); if (emptyMessage) { emptyMessage.remove(); } const homeworkBox = document.createElement("div"); homeworkBox.className = "homework"; homeworkBox.innerHTML = ` <div class="homework-info"> <h3> ${subject} </h3> <p> ${homework} </p> </div> <div class="actions"> <button class="complete-btn" onclick="completeHomework(this)" > Complete </button> <button class="delete-btn" onclick="deleteHomework(this)" > Delete </button> </div> `; homeworkList.appendChild(homeworkBox); document.getElementById("subject").value = ""; document.getElementById("homework").value = ""; updateStats(); } function completeHomework(button) { const homework = button.closest(".homework"); homework.classList.toggle("completed"); button.textContent = homework.classList.contains("completed") ? "Undo" : "Complete"; updateStats(); } function deleteHomework(button) { button.closest(".homework").remove(); const homeworkList = document.getElementById("homeworkList"); if (homeworkList.querySelectorAll(".homework").length === 0) { homeworkList.innerHTML = ` <p class="empty-message"> No homework added yet. </p> `; } updateStats(); } </script>
+</body>
+
+</html>

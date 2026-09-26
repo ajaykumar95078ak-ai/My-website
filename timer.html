@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Countdown Timer</title>
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #141e30, #243b55);
+            font-family: Arial, sans-serif;
+        }
+
+        .timer-container {
+            width: 380px;
+            padding: 40px;
+            text-align: center;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        }
+
+        h1 {
+            color: white;
+            margin-bottom: 25px;
+        }
+
+        .inputs {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        input {
+            width: 100px;
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            text-align: center;
+            font-size: 18px;
+            outline: none;
+        }
+
+        .display {
+            font-size: 55px;
+            font-weight: bold;
+            color: #00bfff;
+            margin-bottom: 25px;
+            letter-spacing: 3px;
+        }
+
+        button {
+            padding: 12px 20px;
+            margin: 5px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+
+        #start {
+            background: #00c853;
+            color: white;
+        }
+
+        #pause {
+            background: #ff9800;
+            color: white;
+        }
+
+        #reset {
+            background: #f44336;
+            color: white;
+        }
+
+        button:hover {
+            opacity: 0.85;
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="timer-container">
+
+        <h1>Countdown Timer</h1>
+
+        <div class="inputs">
+            <input type="number" id="minutes" placeholder="Minutes" min="0">
+            <input type="number" id="seconds" placeholder="Seconds" min="0" max="59">
+        </div>
+
+        <div class="display" id="display">
+            00:00
+        </div>
+
+        <button id="start">Start</button>
+        <button id="pause">Pause</button>
+        <button id="reset">Reset</button>
+
+    </div>
+
+    <script>
+        let totalSeconds = 0;
+        let timer = null;
+
+        const display = document.getElementById("display");
+        const minutesInput = document.getElementById("minutes");
+        const secondsInput = document.getElementById("seconds");
+
+        function updateDisplay() {
+            let minutes = Math.floor(totalSeconds / 60);
+            let seconds = totalSeconds % 60;
+
+            display.textContent =
+                String(minutes).padStart(2, "0") + ":" +
+                String(seconds).padStart(2, "0");
+        }
+
+        document.getElementById("start").addEventListener("click", function () {
+
+            if (timer) return;
+
+            if (totalSeconds === 0) {
+                let minutes = Number(minutesInput.value) || 0;
+                let seconds = Number(secondsInput.value) || 0;
+
+                totalSeconds = (minutes * 60) + seconds;
+            }
+
+            if (totalSeconds <= 0) {
+                alert("Please set a time first!");
+                return;
+            }
+
+            updateDisplay();
+
+            timer = setInterval(function () {
+
+                totalSeconds--;
+
+                updateDisplay();
+
+                if (totalSeconds <= 0) {
+                    clearInterval(timer);
+                    timer = null;
+
+                    playAlarm();
+                    alert("⏰ Time's Up!");
+                }
+
+            }, 1000);
+        });
+
+        document.getElementById("pause").addEventListener("click", function () {
+            clearInterval(timer);
+            timer = null;
+        });
+
+        document.getElementById("reset").addEventListener("click", function () {
+
+            clearInterval(timer);
+            timer = null;
+
+            totalSeconds = 0;
+
+            minutesInput.value = "";
+            secondsInput.value = "";
+
+            updateDisplay();
+        });
+
+        function playAlarm() {
+
+            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+
+            oscillator.frequency.value = 800;
+            oscillator.type = "sine";
+
+            gainNode.gain.value = 0.3;
+
+            oscillator.start();
+
+            setTimeout(function () {
+                oscillator.stop();
+            }, 1500);
+        }
+    </script>
+
+</body>
+</html>

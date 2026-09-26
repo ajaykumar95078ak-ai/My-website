@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Study Planner</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #0f172a, #1e3a5f, #0f172a);
+            color: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 30px;
+        }
+
+        /* ================= CONTAINER ================= */
+        .planner-container {
+            width: 100%;
+            max-width: 700px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.15);
+            border-radius: 24px;
+            padding: 40px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.35);
+            backdrop-filter: blur(15px);
+        }
+
+        /* ================= HEADER ================= */
+        .planner-header {
+            text-align: center;
+            margin-bottom: 35px;
+        }
+
+        .planner-icon {
+            font-size: 48px;
+            margin-bottom: 10px;
+        }
+
+        h1 {
+            font-size: 32px;
+            margin-bottom: 8px;
+        }
+
+        .subtitle {
+            color: #b8c4d6;
+            font-size: 15px;
+        }
+
+        /* ================= INPUT AREA ================= */
+        .input-section {
+            background: rgba(255, 255, 255, 0.06);
+            padding: 20px;
+            border-radius: 16px;
+            margin-bottom: 25px;
+        }
+
+        .input-group {
+            display: grid;
+            grid-template-columns: 1fr 1.5fr auto;
+            gap: 12px;
+        }
+
+        input {
+            width: 100%;
+            padding: 13px 15px;
+            border: none;
+            border-radius: 10px;
+            outline: none;
+            background: #ffffff;
+            color: #1e293b;
+            font-size: 15px;
+        }
+
+        input:focus {
+            box-shadow: 0 0 0 3px rgba(0, 191, 255, 0.25);
+        }
+
+        .add-btn {
+            border: none;
+            padding: 13px 20px;
+            border-radius: 10px;
+            background: #00bfff;
+            color: white;
+            font-weight: bold;
+            font-size: 15px;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .add-btn:hover {
+            transform: translateY(-2px);
+            opacity: 0.9;
+        }
+
+        /* ================= TASK HEADER ================= */
+        .task-heading {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .task-heading h2 {
+            font-size: 20px;
+        }
+
+        .task-count {
+            color: #00bfff;
+            font-size: 14px;
+        }
+
+        /* ================= TASK ================= */
+        .task-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .task {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            padding: 17px;
+            background: rgba(255, 255, 255, 0.08);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 14px;
+            transition: 0.2s;
+        }
+
+        .task:hover {
+            transform: translateY(-2px);
+            background: rgba(255, 255, 255, 0.12);
+        }
+
+        .task-info h3 {
+            font-size: 17px;
+            margin-bottom: 5px;
+        }
+
+        .task-info p {
+            color: #b8c4d6;
+            font-size: 14px;
+        }
+
+        .delete-btn {
+            border: none;
+            background: #ef4444;
+            color: white;
+            padding: 9px 14px;
+            border-radius: 8px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+
+        .delete-btn:hover {
+            background: #dc2626;
+        }
+
+        /* ================= EMPTY MESSAGE ================= */
+        .empty-message {
+            text-align: center;
+            color: #94a3b8;
+            padding: 30px 10px;
+            font-size: 15px;
+        }
+
+        /* ================= MOBILE ================= */
+        @media (max-width: 650px) {
+            body {
+                padding: 15px;
+            }
+
+            .planner-container {
+                padding: 25px 20px;
+            }
+
+            .input-group {
+                grid-template-columns: 1fr;
+            }
+
+            .add-btn {
+                width: 100%;
+            }
+
+            .task {
+                align-items: flex-start;
+            }
+
+            .delete-btn {
+                flex-shrink: 0;
+            }
+
+            h1 {
+                font-size: 27px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="planner-container"> <!-- ================= HEADER ================= -->
+        <div class="planner-header">
+            <div class="planner-icon"> 📚 </div>
+            <h1> Study Planner </h1>
+            <p class="subtitle"> Plan your study and stay organized </p>
+        </div> <!-- ================= INPUT ================= -->
+        <div class="input-section">
+            <div class="input-group"> <input type="text" id="subject" placeholder="Subject"> <input type="text"
+                    id="task" placeholder="Study task"> <button class="add-btn" onclick="addTask()"> + Add Task
+                </button> </div>
+        </div> <!-- ================= TASKS ================= -->
+        <div class="task-heading">
+            <h2> My Study Tasks </h2> <span class="task-count" id="taskCount"> 0 Tasks </span>
+        </div>
+        <div id="taskList" class="task-list">
+            <p class="empty-message"> No study tasks added yet. </p>
+        </div>
+    </div> <!-- ================= JAVASCRIPT ================= -->
+    <script> function updateTaskCount() { const taskList = document.getElementById("taskList"); const tasks = taskList.querySelectorAll(".task"); const count = document.getElementById("taskCount"); count.textContent = tasks.length + (tasks.length === 1 ? " Task" : " Tasks"); } function addTask() { const subject = document.getElementById("subject").value.trim(); const task = document.getElementById("task").value.trim(); if (subject === "" || task === "") { alert("Please enter subject and study task!"); return; } const taskList = document.getElementById("taskList"); const emptyMessage = document.querySelector(".empty-message"); if (emptyMessage) { emptyMessage.remove(); } const taskBox = document.createElement("div"); taskBox.className = "task"; taskBox.innerHTML = ` <div class="task-info"> <h3> ${subject} </h3> <p> ${task} </p> </div> <button class="delete-btn" onclick="deleteTask(this)" > Delete </button> `; taskList.appendChild(taskBox); document.getElementById("subject").value = ""; document.getElementById("task").value = ""; updateTaskCount(); } function deleteTask(button) { button.parentElement.remove(); const taskList = document.getElementById("taskList"); if (taskList.querySelectorAll(".task").length === 0) { taskList.innerHTML = ` <p class="empty-message"> No study tasks added yet. </p> `; } updateTaskCount(); } </script>
+</body>
+
+</html>
